@@ -9,6 +9,9 @@ use App\Http\Controllers\EstadisticaController;
 use App\Http\Controllers\FormulaMedicaController;
 use App\Http\Controllers\RegenteController;
 use App\Http\Controllers\ProveedorController;
+use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\ClasificacionController;
+
 
 // Ruta para mostrar formulario de login
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login.form');
@@ -38,7 +41,7 @@ Route::get('/estadisticas', [EstadisticasController::class, 'index'])
 // Productos (solo las rutas que necesitas)
 // Para listado, creación, edición, guardado y borrado usa resource
 Route::resource('productos', ProductoController::class)
-    ->except(['show']);  // si no necesitas show público, o quita except
+    ->except(['show']); 
 
 // Promociones (listado y creación/edición)
 Route::resource('promociones', PromocionController::class)
@@ -55,6 +58,11 @@ Route::get('/regente', [RegenteController::class, 'index'])
 // Proveedores
 Route::resource('proveedores', ProveedorController::class)
     ->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
+
+    // Categorías
+Route::resource('categorias', CategoriaController::class);
+// Clasificaciones
+Route::resource('clasificaciones', ClasificacionController::class);
 
 
 

@@ -56,4 +56,10 @@ class ClasificacionController extends Controller
 
         return response()->json(null, 204);
     }
+
+      public function edit($id)
+{
+    $clasificacion = Clasificacion::findOrFail($id);
+    return view('clasificaciones.edit', compact('clasiicacion'));
+}
 }

@@ -51,4 +51,10 @@ class CategoriaController extends Controller
 
         return response()->json(null, 204);
     }
+
+    public function edit($id)
+{
+    $categoria = Categoria::findOrFail($id);
+    return view('categorias.edit', compact('categoria'));
+}
 }
