@@ -2,7 +2,7 @@
 
 
 @section('content')
-    <h1>Listado de Productos</h1>    
+    <h1>Listado de Productos</h1>
 
     @if ($productos->isEmpty())
         <p>No hay productos registrados.</p>
@@ -32,8 +32,9 @@
                 {{-- Productos disponibles --}}
                 @foreach($productos->where('estadoProducto.Tipo_Estado_Producto', '!=', 'No Disponible') as $producto)
                     @php
-                        $categoriaActual = $producto->clasificacion->categoria->Nombre_Categoria;
-                        $clasificacionActual = $producto->clasificacion->Nombre_Clasificacion;
+                        $clasificacion = $producto->clasificacion;
+                        $categoriaActual = $clasificacion?->categoria?->Nombre_Categoria ?? 'Sin categoría';
+                        $clasificacionActual = $clasificacion?->Nombre_Clasificacion ?? 'Sin clasificación';
                     @endphp
 
                     @if ($categoriaActual !== $categoriaAnterior)

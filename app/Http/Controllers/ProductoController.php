@@ -7,6 +7,11 @@ use Illuminate\Validation\Rule;
 use App\Http\Services\TransaccionService;
 use App\Http\Services\PromocionService;
 use App\Http\Controllers\CategoriaController;
+use App\Models\Marca;             
+use App\Models\Categoria;
+use App\Models\Clasificacion;
+use App\Models\EstadoProducto;
+use App\Models\Proveedor;
 
 class ProductoController extends Controller
 {
@@ -20,10 +25,10 @@ class ProductoController extends Controller
     }
 
     public function index()
-{
-    $productos = Producto::all();
-    return view('dashboard', compact('productos')); // Pasa los productos a la vista del dashboard
-}
+    {
+        $productos = Producto::all();
+        return view('dashboard', compact('productos')); // Pasa los productos a la vista del dashboard
+    }
 
     public function store(Request $request)
     {
@@ -72,7 +77,7 @@ class ProductoController extends Controller
             }
         }
 
-        return response()->json($producto, 201);
+        return redirect()->route('dashboard')->with('success', 'Producto creado exitosamente.');
     }
 
     public function show($id)
@@ -131,8 +136,13 @@ class ProductoController extends Controller
 
     public function create()
     {
-        return view('productos.create');
-    }
+        $marcas = Marca::all();
+        $categorias = Categoria::all();
+        $clasificaciones = Clasificacion::all();
+        $estados = EstadoProducto::all();
+        $proveedores = Proveedor::all();
 
+        return view('productos.create', compact('marcas', 'categorias', 'clasificaciones', 'estados', 'proveedores'));
+    }
 
 }

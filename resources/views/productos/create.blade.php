@@ -1,29 +1,31 @@
 @extends('layouts.app')
 
+@section('css')
+    <link rel="stylesheet" href="{{ asset('build/assets/css/producto.create.css') }}">
+@endsection
+
 @section('content')
-    <div class="container">
-        <h2>Agregar Producto</h2>
+    <fieldset class="border p-4 rounded shadow-sm bg-light">
+        <legend class="text-primary text-center mb-4">Agregar Producto</legend>
 
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+    @if ($errors->any())
+        <div class="alert alert-danger mt-3">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
-        {{-- Este formulario llama al método store --}}
-        <form action="{{ route('productos.store') }}" method="POST">
-            @csrf
-
-            {{-- Aquí se incluye el fragmento común del formulario --}}
-            @include('productos.form')
-
+    <form action="{{ route('productos.store') }}" method="POST">
+        @csrf
+        {{-- Incluir aquí el formulario reutilizable --}}
+        @include('productos.form')
+        <div class="text-center mt-4">
             <button type="submit" class="btn btn-primary">Guardar</button>
-        </form>
-    </div>
+        </div>
+    </form>
 @endsection
 
 @push('scripts')
@@ -31,8 +33,8 @@
     const clasificaciones = @json($clasificaciones);
 
     document.addEventListener('DOMContentLoaded', () => {
-        const categoriaSelect = document.getElementById('categoria');
-        const clasificacionSelect = document.getElementById('clasificacion');
+        const categoriaSelect = document.querySelector('select[name="Id_Categoria"]');
+        const clasificacionSelect = document.querySelector('select[name="Id_Clasificacion"]');
 
         function actualizarClasificaciones() {
             const idCategoria = categoriaSelect.value;
@@ -50,11 +52,9 @@
 
         categoriaSelect.addEventListener('change', actualizarClasificaciones);
 
-        // Si hay un valor seleccionado al cargar
         if (categoriaSelect.value) {
             actualizarClasificaciones();
         }
     });
 </script>
 @endpush
-

@@ -15,6 +15,7 @@
 
     <!-- Tu CSS personalizado -->
     <link rel="stylesheet" href="{{ asset('build/assets/css/dashboard.css') }}">
+    @yield('css') 
 
 
 </head>
