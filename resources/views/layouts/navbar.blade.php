@@ -122,26 +122,7 @@
     </div>
 </nav>
 
-{{-- OFFCANVAS: Categorías y Clasificaciones --}}
-<nav class="navbar navbar-light" style="background-color: #ffffff;">
-    <div class="container-fluid">
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-            <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Categorías y Clasificaciones</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
-            </div>
-            <div class="offcanvas-body">
-                <input class="form-control mb-3" id="search-bar" type="text"
-                    placeholder="Buscar categorías o clasificaciones..." oninput="filterCategoriesAndClassifications()">
-                <h6 class="text-primary">Categorías</h6>
-                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3" id="category-list"></ul>
-                <hr>
-                <h6 class="text-primary">Clasificaciones</h6>
-                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3" id="classification-list"></ul>
-            </div>
-        </div>
-    </div>
-</nav>
+
 
 {{-- MODAL: Notificaciones --}}
 <div class="modal fade" id="notificationsModal" tabindex="-1" aria-labelledby="notificationsModalLabel"

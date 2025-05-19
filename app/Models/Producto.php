@@ -56,4 +56,10 @@ class Producto extends Model
     {
         return $this->hasMany(Transaccion::class, 'Id_Producto');
     }
+    public function promocionActiva()
+{
+    return $this->hasOne(Promocion::class, 'id_producto', 'Id_Producto')
+                ->where('fecha_inicio', '<=', now())
+                ->where('fecha_fin', '>=', now());
+}
 }

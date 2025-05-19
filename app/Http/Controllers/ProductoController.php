@@ -7,25 +7,28 @@ use Illuminate\Validation\Rule;
 use App\Http\Services\TransaccionService;
 use App\Http\Services\PromocionService;
 use App\Http\Controllers\CategoriaController;
-use App\Models\Marca;             
+use App\Models\Marca;
 use App\Models\Categoria;
 use App\Models\Clasificacion;
 use App\Models\EstadoProducto;
 use App\Models\Proveedor;
+use App\Http\services\VentaProductoService;
 
 class ProductoController extends Controller
 {
     protected $transaccionService;
     protected $promocionService;
 
-    public function __construct(TransaccionService $transaccionService, PromocionService $promocionService)
+    public function __construct(TransaccionService $transaccionService, PromocionService $promocionService, VentaProductoService $ventaProductoService)
     {
         $this->transaccionService = $transaccionService;
         $this->promocionService = $promocionService;
+        $this->ventaProductoService = $ventaProductoService;
     }
 
     public function index()
     {
+
         $productos = Producto::all();
         return view('dashboard', compact('productos')); // Pasa los productos a la vista del dashboard
     }
@@ -144,5 +147,26 @@ class ProductoController extends Controller
 
         return view('productos.create', compact('marcas', 'categorias', 'clasificaciones', 'estados', 'proveedores'));
     }
+
+    public function vender(Request $request, VentaProductoService $ventaProductoService)
+{
+    $validated = $request->validate([
+        'idProducto' => 'required|exists:producto,Id_Producto',
+        'cantidad' => 'required|integer|min:1',
+        'id_regente' => 'required|exists:regente,Id_Regente',
+    ]);
+
+    // Enviar mensaje a la sesión para mostrar en la vista
+    session()->flash('venta_data', $validated);
+
+    try {
+        $ventaProductoService->vender($validated);
+        session()->flash('venta_success', 'Venta realizada correctamente.');
+    } catch (\Throwable $e) {
+        session()->flash('venta_error', 'Error al vender producto: ' . $e->getMessage());
+    }
+
+    return back();
+}
 
 }

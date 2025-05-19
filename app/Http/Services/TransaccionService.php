@@ -82,4 +82,5 @@ class TransaccionService
     {
         Transaccion::findOrFail($id)->delete();
     }
+    
 }

@@ -44,8 +44,8 @@ Route::resource('productos', ProductoController::class)
     ->except(['show']); 
 
 // Promociones (listado y creación/edición)
-Route::resource('promociones', PromocionController::class)
-    ->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
+Route::resource('promociones', PromocionController::class);
+
 
 // Recetas médicas
 Route::resource('recetas', FormulaMedicaController::class)
@@ -64,6 +64,7 @@ Route::resource('categorias', CategoriaController::class);
 // Clasificaciones
 Route::resource('clasificaciones', ClasificacionController::class);
 
-
+//VENDER PRODCUTO
+Route::post('/productos/vender', [ProductoController::class, 'vender'])->name('productos.vender');
 
 

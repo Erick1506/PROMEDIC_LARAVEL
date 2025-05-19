@@ -141,3 +141,5 @@ Route::get('/turnos-regente/{id}', [TurnoRegenteController::class, 'show']);
 Route::put('/turnos-regente/{id}', [TurnoRegenteController::class, 'update']);
 Route::delete('/turnos-regente/{id}', [TurnoRegenteController::class, 'destroy']); 
 });
+
+

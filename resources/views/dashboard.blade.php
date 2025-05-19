@@ -126,4 +126,50 @@
             </tbody>
         </table>
     @endif
+    <!-- Botón flotante para abrir modal -->
+    <button type="button" class="btn btn-primary position-fixed bottom-0 end-0 m-3" data-bs-toggle="modal"
+        data-bs-target="#eliminarModal">
+        Vender Producto
+    </button>
+
+    <!-- Modal de venta -->
+    <div class="modal fade" id="eliminarModal" tabindex="-1" aria-labelledby="eliminarModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Venta de Producto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ route('productos.vender') }}" method="POST">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="idProducto" class="form-label">ID del Producto</label>
+                            <input type="number" class="form-control" id="idProducto" name="idProducto" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="cantidad" class="form-label">Cantidad</label>
+                            <input type="number" class="form-control" id="cantidad" name="cantidad" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="regenteProducto" class="form-label">Regente</label>
+                            <select class="form-select" id="regenteProducto" name="id_regente" required>
+                                <option value="">Seleccione un regente</option>
+                                @foreach($regentes as $regente)
+                                    <option value="{{ $regente->id }}">{{ $regente->Nombre }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success">Procesar Venta</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Importar el JS de venta -->
+
+
 @endsection

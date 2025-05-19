@@ -15,11 +15,19 @@ class PromocionController extends Controller
         $this->promocionService = $promocionService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json($this->promocionService->listar());
+        $searchTerm = $request->input('search', '');
+        $promociones = $this->promocionService->listar();
+        // Filtrar las promociones si hay un término de búsqueda
+        if ($searchTerm) {
+            $promociones = $promociones->filter(function ($promocion) use ($searchTerm) {
+                return stripos($promocion->producto->Nombre_Producto, $searchTerm) !== false ||
+                    stripos($promocion->Id_Promocion, $searchTerm) !== false;
+            });
+        }
+        return view('promociones.index', compact('promociones', 'searchTerm'));
     }
-
     public function store(Request $request)
     {
         $data = $request->validate([
