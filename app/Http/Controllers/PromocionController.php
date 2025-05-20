@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Services\PromocionService;
 use App\Models\Producto;
+use App\Models\Categoria;
+use App\Models\TipoPromocion;
+use App\Models\clasificacion;
+
 
 class PromocionController extends Controller
 {
@@ -39,10 +43,23 @@ class PromocionController extends Controller
             'Descuento' => 'required_if:Id_Tipo_Promocion,2|integer',
         ]);
 
-        $promocion = $this->promocionService->crear($data);
+        if (!empty($data['Fecha_Inicio']) && !empty($data['Fecha_Fin'])) {
+            if ($data['Fecha_Fin'] < $data['Fecha_Inicio']) {
+                return redirect()->back()->withInput()->withErrors([
+                    'Fecha_Fin' => 'La fecha de fin no puede ser anterior a la fecha de inicio.',
+                ]);
+            }
+        }
 
-        return response()->json($promocion, 201);
+        $resultado = $this->promocionService->crear($data);
+
+        if ($resultado['status'] === 'error') {
+            return redirect()->back()->withInput()->withErrors(['msg' => $resultado['message']]);
+        }
+
+        return redirect()->route('promociones.index')->with('msg', 'Promoción creada exitosamente.');
     }
+
 
     public function storeFromProducto($idProducto, Request $request)
     {
@@ -91,4 +108,15 @@ class PromocionController extends Controller
 
         return response()->json(null, 204);
     }
+
+    public function create()
+    {
+        $categorias = Categoria::all(); // Obtener todas las categorías
+        $clasificaciones = Clasificacion::all(); // Obtener todas las clasificaciones
+        $tipos = TipoPromocion::all(); // Obtener todos los tipos de promoción
+        $productos = Producto::all(); // Obtener todos los productos
+
+        return view('promociones.create', compact('categorias', 'tipos', 'clasificaciones', 'productos'));
+    }
+
 }

@@ -7,22 +7,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Promedic</title>
 
-    
+
     <!-- Bootstrap CSS + Icons (sin integrity para evitar mismatches) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Tu CSS personalizado -->
     <link rel="stylesheet" href="{{ asset('build/assets/css/dashboard.css') }}">
-    @yield('css') 
+    @yield('css')
 
 
 </head>
 
 <body>
-    @include('layouts.navbar')
-    @include('layouts.menu')
+    @if (!isset($ocultarNavbar) || !$ocultarNavbar)
+        @include('layouts.navbar')
+    @endif
 
+    @if (!isset($ocultarMenu) || !$ocultarMenu)
+        @include('layouts.menu')
+    @endif
 
 
     <div class="container py-4">

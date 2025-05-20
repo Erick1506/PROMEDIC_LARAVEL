@@ -1,23 +1,16 @@
+@php
+    $ocultarNavbar = true;
+    $ocultarMenu = true;
+@endphp
+
 @extends('layouts.app')
-
-@section('content')
-<div class="container mt-5">
-    <h1 class="text-center mb-4">Gestión de Promociones</h1>
-
-    <!-- Mensajes de estado -->
-    @if(session('msg'))
-        <div class="alert alert-success text-center">
-            {{ session('msg') }}
-        </div>
-    @endif
-
-    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+ <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
         <div class="container-fluid">
             <a class="navbar-brand" href="#"><h2>Promedic</h2></a>
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/') }}">Inicio</a>
+                        <a class="nav-link" href="{{ url('/dashboard') }}">Inicio</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('promociones.create') }}">Crear una promoción</a>
@@ -30,6 +23,19 @@
             </div>
         </div>
     </nav>
+
+@section('content')
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Gestión de Promociones</h1>
+
+    <!-- Mensajes de estado -->
+    @if(session('msg'))
+        <div class="alert alert-success text-center">
+            {{ session('msg') }}
+        </div>
+    @endif
+
+   
 
     <div class="row promociones-container" id="promocionesContainer">
         @if($promociones->isNotEmpty())
@@ -50,7 +56,7 @@
                                 <p class="card-text"><strong>Descuento:</strong> {{ $promocion->Descuento }}%</p>
                             @endif
 
-                            <a href="{{ route('promociones.edit', $promocion->Id_Promocion) }}" class="btn btn-primary btn-sm">Editar</a>
+                            <a href="{{ route('promociones.edit', $promocion->Id_Promocion) }}" class="btn btn-light btn-sm">Editar</a>
                             <form action="{{ route('promociones.destroy', $promocion->Id_Promocion) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')

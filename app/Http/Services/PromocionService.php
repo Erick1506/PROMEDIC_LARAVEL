@@ -27,10 +27,34 @@ class PromocionService
     }
 
     // Crea una promoción con validación básica
-    public function crear(array $data): Promocion
+    public function crear(array $data)
     {
-        return Promocion::create($data);
+        $producto = Producto::find($data['Id_Producto']);
+
+        if (!$producto) {
+            return ['status' => 'error', 'message' => 'Producto no encontrado.'];
+        }
+
+        // Verificar si ya tiene promoción activa
+        $existePromocion = $producto->promocion()
+            ->where(function ($query) {
+                $query->whereNull('Fecha_Fin')
+                    ->orWhere('Fecha_Fin', '>=', now());
+            })->exists();
+
+        if ($existePromocion) {
+            return ['status' => 'error', 'message' => 'El producto ya tiene una promoción activa.'];
+        }
+
+        // Crear la promoción
+        $promocion = $producto->promocion()->create($data);
+
+        // Cambiar estado del producto a 3 (Promoción)
+        $producto->update(['Id_Estado_Producto' => 3]);
+
+        return ['status' => 'success', 'data' => $promocion];
     }
+
 
     // Listar todas las promociones
     public function listar()
