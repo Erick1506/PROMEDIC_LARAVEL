@@ -22,7 +22,8 @@ class MarcaController extends Controller
 
         $marca = Marca::create($data);
 
-        return response()->json($marca, 201);
+        return redirect()->route('productos.create')->with('success', 'marca agregada exitosamente.');
+
     }
 
     // Muestra una marca por ID

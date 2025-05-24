@@ -54,10 +54,13 @@
             </div>
         </div>
 
-        <div class="row mb-3">
-            <div class="col-md-6">
+        <!-- Fila 6 -->
+
+         <!-- Marca -->
+        <div class="row mb-3 align-items-end">
+            <div class="col-md-5">
                 <label class="form-label">Marca</label>
-                <select class="form-select" name="Id_Marca">
+                <select class="form-select" name="Id_Marca" required>
                     @forelse($marcas as $marca)
                         <option value="{{ $marca->Id_Marca }}">{{ $marca->Marca_Producto }}</option>
                     @empty
@@ -65,6 +68,14 @@
                     @endforelse
                 </select>
             </div>
+            <div class="col-md-1 d-flex justify-content-center">
+                <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal"
+                        data-bs-target="#modalNuevaMarca" title="Agregar nueva marca">
+                    +
+                </button>
+            </div>
+
+                <!-- Estado Producto -->
             <div class="col-md-6">
                 <label class="form-label">Estado del Producto</label>
                 <select class="form-select" name="Id_Estado_Producto">
@@ -77,25 +88,61 @@
             </div>
         </div>
 
-        <div class="row mb-3">
-            <div class="col-md-6">
+         {{-- Selección del Tipo de Promoción (desde la base de datos) --}}
+            <div class="col-md-6 mt-3" id="promocionFields" style="display: none;">
+                <label class="form-label">Tipo de Promoción</label>
+                <select class="form-select" name="Id_Tipo_Promocion" id="tipoPromocion">
+                    <option value="">Seleccione una promoción</option>
+                    @forelse($tiposPromociones as $promo)
+                     <option value="{{ $promo->Id_Tipo_Promocion }}">{{ $promo->Tipo_Promocion }}</option>
+                        @empty
+                            <option value="">No hay tipos disponibles</option>
+                        @endforelse
+                </select>
+            </div>
+
+            {{-- Campo para el descuento  --}}
+            <div class="col-md-6 mt-3" id="descuentoField" style="display: none;">
+                <label class="form-label">Porcentaje de Descuento (%)</label>
+                <input type="number" class="form-control" name="Descuento" min="1" max="100">
+            </div>
+
+
+        <!-- Fila 7 -->
+        <div class="row mb-3 align-items-end">
+            <div class="col-md-5">
                 <label class="form-label">Categoría</label>
-                <select class="form-select" name="Id_Categoria" id="categoria">
+                <select class="form-select" name="Id_Categoria" id="categoria" required>
                     <option value="">Seleccione una categoría</option>
                     @foreach($categorias as $categoria)
                         <option value="{{ $categoria->Id_Categoria }}">{{ $categoria->Nombre_Categoria }}</option>
                     @endforeach
                 </select>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-1 d-flex justify-content-center">
+                <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal"
+                        data-bs-target="#modalNuevaCategoria" title="Agregar nueva categoria">
+                    +
+                </button>
+            </div>
+
+
+            <div class="col-md-5">
                 <label class="form-label">Clasificación</label>
-                <select class="form-select" name="Id_Clasificacion" id="clasificacion">
+                <select class="form-select" name="Id_Clasificacion" id="clasificacion" required>
                     <option value="">Seleccione una clasificación</option>
-                      @foreach($clasificaciones as $clasificacion)
+                    @foreach($clasificaciones as $clasificacion)
                         <option value="{{ $clasificacion->Id_Clasificacion }}">{{ $clasificacion->Nombre_Clasificacion }}</option>
                     @endforeach
                 </select>
             </div>
+            <div class="col-md-1 d-flex justify-content-center">
+                <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal"
+                        data-bs-target="#modalNuevaClasificacion" title="Agregar nueva clasificación">
+                    +
+                </button>
+            </div>
+
             <div class="col-md-6">
                 <label class="form-label">Proveedor</label>
                 <select class="form-select" name="Id_Proveedor" id="proveedor">

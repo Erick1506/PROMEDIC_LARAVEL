@@ -47,7 +47,7 @@
     <!-- Push de scripts específicos de cada vista -->
     @stack('scripts')
     <script src="{{ asset('build/assets/js/menu.js') }}"></script>
-
 </body>
+
 
 </html>

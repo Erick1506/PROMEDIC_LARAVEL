@@ -112,7 +112,7 @@
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">@csrf
                             </form>
                         </li>
-                        <li><a class="dropdown-item" href="{{ route('regente.index') }}">Gestión de regente</a></li>
+                        <li><a class="dropdown-item" href="{{ route('regentes.index') }}">Gestión de regente</a></li>
                         <li><a class="dropdown-item" href="{{ route('proveedores.index') }}">Gestión de proveedor</a>
                         </li>
                     </ul>

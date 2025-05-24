@@ -13,6 +13,7 @@ use App\Models\Clasificacion;
 use App\Models\EstadoProducto;
 use App\Models\Proveedor;
 use App\Http\services\VentaProductoService;
+use App\Models\TipoPromocion;
 
 class ProductoController extends Controller
 {
@@ -144,8 +145,9 @@ class ProductoController extends Controller
         $clasificaciones = Clasificacion::all();
         $estados = EstadoProducto::all();
         $proveedores = Proveedor::all();
+        $tiposPromociones = TipoPromocion::all();
 
-        return view('productos.create', compact('marcas', 'categorias', 'clasificaciones', 'estados', 'proveedores'));
+        return view('productos.create', compact('marcas', 'categorias', 'clasificaciones', 'estados', 'proveedores', 'tiposPromociones'));
     }
 
     public function vender(Request $request, VentaProductoService $ventaProductoService)

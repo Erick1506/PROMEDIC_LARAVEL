@@ -24,7 +24,7 @@ class ClasificacionController extends Controller
 
         $clasificacion = Clasificacion::create($data);
 
-        return response()->json($clasificacion, 201);
+        return redirect()->route('productos.create')->with('success', 'clasificacion agregada exitosamente.');
     }
 
     // Muestra un registro específico de clasificacion por su ID

@@ -21,7 +21,7 @@ class CategoriaController extends Controller
 
         $categoria = Categoria::create($data);
 
-        return response()->json($categoria, 201);
+        return redirect()->route('productos.create')->with('success', 'categoria agregada exitosamente.');
     }
 
     public function show($id)

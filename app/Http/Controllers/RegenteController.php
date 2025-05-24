@@ -4,13 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\Regente;
 use Illuminate\Http\Request;
+use App\models\TurnoRegente;
 
 class RegenteController extends Controller
 {
     // Lista todos los regentes
-    public function index()
+    public function index(Request $request)
     {
-        return Regente::all();
+        $busqueda = $request->input('buscar_regente', '');
+        $regentes = Regente::with('turno')->where('Nombre', 'LIKE', "%$busqueda%")->get();
+        $turnos = TurnoRegente::all();
+        return view('regentes.index', compact('regentes', 'turnos'));
     }
 
     // Crea un nuevo regente
@@ -32,7 +36,7 @@ class RegenteController extends Controller
 
         $regente = Regente::create($data);
 
-        return response()->json($regente, 201);
+        return redirect()->route('regentes.index')->with('success', 'regente agregado exitosamente.');
     }
 
     // Muestra un regente por ID
@@ -62,7 +66,7 @@ class RegenteController extends Controller
 
         $regente->update($data);
 
-        return response()->json($regente);
+        return redirect()->route('regentes.index')->with('success', 'regente Actualizado exitosamente.');
     }
 
     // Elimina un regente por ID
@@ -72,4 +76,17 @@ class RegenteController extends Controller
 
         return response()->json(null, 204);
     }
+    public function create()
+    {
+        $turnos = TurnoRegente::all(); // Obtener los turnos
+        return view('regentes.create', compact('turnos'));
+    }
+
+    public function edit($id)
+    {
+        $regente = Regente::findOrFail($id);
+        $turnos = TurnoRegente::all();
+        return view('regentes.edit', compact('regente', 'turnos'));
+    }
+
 }

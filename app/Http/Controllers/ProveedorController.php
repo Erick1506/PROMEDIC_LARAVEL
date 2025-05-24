@@ -8,9 +8,13 @@ use Illuminate\Http\Request;
 class ProveedorController extends Controller
 {
     // Lista todos los proveedores
-    public function index()
+    public function index(Request $request)
     {
-        return Proveedor::all();
+        // Obtener la búsqueda si existe
+        $busqueda = $request->input('buscar_proveedor', '');
+        $proveedores = Proveedor::where('Nombre_Proveedor', 'LIKE', "%$busqueda%")->get();
+
+        return view('proveedores.index', compact('proveedores'));
     }
 
     // Crea un nuevo proveedor
@@ -21,18 +25,20 @@ class ProveedorController extends Controller
             'Direccion_Proveedor' => 'nullable|string|max:45',
             'Correo' => 'nullable|string|email|max:45',
             'Telefono' => 'nullable|numeric',
-            'Id_Administrador' => 'nullable|integer|exists:administrador,Id_Administrador',
+            'Id_Administrador' => 1,
         ]);
 
-        $proveedor = Proveedor::create($data);
+        Proveedor::create($data);
 
-        return response()->json($proveedor, 201);
+        // Redirigir a la lista de proveedores
+        return redirect()->route('proveedores.index')->with('success', 'Proveedor agregado exitosamente.');
     }
 
     // Muestra un proveedor por ID
     public function show($id)
     {
-        return Proveedor::findOrFail($id);
+        $proveedor = Proveedor::findOrFail($id);
+        return view('proveedores.show', compact('proveedor'));
     }
 
     // Actualiza un proveedor existente
@@ -50,7 +56,8 @@ class ProveedorController extends Controller
 
         $proveedor->update($data);
 
-        return response()->json($proveedor);
+        // Redirigir a la lista de proveedores
+        return redirect()->route('proveedores.index')->with('success', 'Proveedor actualizado exitosamente.');
     }
 
     // Elimina un proveedor por ID
@@ -58,6 +65,19 @@ class ProveedorController extends Controller
     {
         Proveedor::findOrFail($id)->delete();
 
-        return response()->json(null, 204);
+        // Redirigir a la lista de proveedores
+        return redirect()->route('proveedores.index')->with('success', 'Proveedor eliminado exitosamente.');
     }
+
+    public function create()
+    {
+        return view('proveedores.create'); // Asegúrate de tener esta vista
+    }
+
+    public function edit($id)
+    {
+        $proveedor = Proveedor::findOrFail($id);
+        return view('proveedores.edit', compact('proveedor'));
+    }
+
 }

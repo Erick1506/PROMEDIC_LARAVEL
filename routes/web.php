@@ -11,6 +11,7 @@ use App\Http\Controllers\RegenteController;
 use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ClasificacionController;
+use App\Http\controllers\MarcaController;
 
 
 // Ruta para mostrar formulario de login
@@ -27,44 +28,43 @@ Route::get('/dashboard', function () {
     if (!session()->has('regente_id') && !session()->has('admin_id')) {
         return redirect('/login');
     }
-    return view('dashboard'); // la vista 
+    return view('dashboard');
 })->name('dashboard');
 
+// Dashboard desde controlador (esta línea puede quedar si es necesaria)
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-
-
 // Estadísticas
-Route::get('/estadisticas', [EstadisticasController::class, 'index'])
+Route::get('/estadisticas', [EstadisticaController::class, 'index'])
     ->name('estadisticas.index');
 
-// Productos (solo las rutas que necesitas)
-// Para listado, creación, edición, guardado y borrado usa resource
+// Productos
 Route::resource('productos', ProductoController::class)
-    ->except(['show']); 
+    ->except(['show']);
 
-// Promociones (listado y creación/edición)
+// Marcas
+
+Route::resource('marcas', MarcaController::class);
+
+// Promociones
 Route::resource('promociones', PromocionController::class);
-
 
 // Recetas médicas
 Route::resource('recetas', FormulaMedicaController::class)
     ->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
 
-// Regente
-Route::get('/regente', [RegenteController::class, 'index'])
-    ->name('regente.index');
+// Regentes 
+Route::resource('regentes', RegenteController::class ,);
 
 // Proveedores
 Route::resource('proveedores', ProveedorController::class)
     ->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
 
-    // Categorías
+// Categorías
 Route::resource('categorias', CategoriaController::class);
+
 // Clasificaciones
 Route::resource('clasificaciones', ClasificacionController::class);
 
-//VENDER PRODCUTO
+// Vender producto
 Route::post('/productos/vender', [ProductoController::class, 'vender'])->name('productos.vender');
-
-

@@ -31,7 +31,9 @@
         @csrf
         @include('promociones.form', ['categorias' => $categorias, 'tipos' => $tipos, 'productos' => $productos])
         <div class="text-center mt-4">
-            <button type="submit" class="btn btn-primary">Guardar</button>
+            <button type="submit" class="btn btn-ligth">Guardar</button>
+            <button type="button" class="btn btn-secondary" onclick="window.history.back()">Cancelar</button>
+
         </div>
     </form>
     <script>
@@ -90,22 +92,22 @@
         });
 
 
-    function actualizarDescuento() {
-        const tipoPromocion = document.getElementById('tipo_promocion').value;
-        const campoDescuento = document.getElementById('campo_descuento');
+        function actualizarDescuento() {
+            const tipoPromocion = document.getElementById('tipo_promocion').value;
+            const campoDescuento = document.getElementById('campo_descuento');
 
-        // Si el tipo seleccionado es "2" (Descuento), mostramos el campo
-        if (tipoPromocion == 2) {
-            campoDescuento.style.display = 'block';
-        } else {
-            campoDescuento.style.display = 'none';
-            document.getElementById('descuento').value = ''; // Limpia el campo
+            // Si el tipo seleccionado es "2" (Descuento), mostramos el campo
+            if (tipoPromocion == 2) {
+                campoDescuento.style.display = 'block';
+            } else {
+                campoDescuento.style.display = 'none';
+                document.getElementById('descuento').value = ''; // Limpia el campo
+            }
         }
-    }
 
-    // Llamamos a la función al cargar por si ya hay un valor seleccionado
-    document.addEventListener('DOMContentLoaded', actualizarDescuento);
-</script>
+        // Llamamos a la función al cargar por si ya hay un valor seleccionado
+        document.addEventListener('DOMContentLoaded', actualizarDescuento);
+    </script>
 
 
 
