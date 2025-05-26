@@ -2,78 +2,91 @@
 
 namespace App\Http\Services;
 
-use App\Models\Producto;
 use App\Models\Comprobante;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Validation\ValidationException;
-use Carbon\Carbon;
+use App\Models\Transaccion;
+use App\Models\Producto;
 
 class VentaProductoService
 {
-    protected $transaccionService;
-
-    public function __construct(TransaccionService $transaccionService)
-    {
-        $this->transaccionService = $transaccionService;
-    }
-
     public function vender(array $data)
     {
-        Log::info("Iniciando venta con datos: " . json_encode($data));
+        // Obtener el producto
+        $producto = Producto::findOrFail($data['idProducto']);
 
-        DB::beginTransaction();
+        // Verificar el estado del producto
+        if ($producto->Id_Estado_Producto == 3) { // Id de promoción
+            // Obtener la promoción activa del producto
+            $promocion = $producto->promociones()
+                ->where(function ($query) {
+                    $query->whereNull('Fecha_Fin')
+                        ->orWhere('Fecha_Fin', '>=', now());
+                })
+                ->first();
 
-        try {
-            $producto = Producto::findOrFail($data['idProducto']);
-            Log::info("Producto encontrado: {$producto->Nombre_Producto}, stock actual: {$producto->Cantidad_Stock}");
 
-            if ($producto->Cantidad_Stock < $data['cantidad']) {
-                Log::warning("Stock insuficiente para producto {$producto->Nombre_Producto}");
-                throw ValidationException::withMessages(['cantidad' => 'Stock insuficiente.']);
+            if ($promocion) {
+                // Verificar el tipo de promoción
+                if ($promocion->Id_Tipo_Promocion == 1) { // Id 1 es el tipo "2x1"
+                    // Calcular la cantidad a registrar (2 por cada 1 vendido)
+                    $cantidadRegistrada = $data['cantidad'] * 2;
+                    $total = $producto->Precio * $data['cantidad']; // Total a cobrar por la cantidad vendida
+                } elseif ($promocion->Id_Tipo_Promocion == 2) { // Id 2 es el tipo "Descuento"
+                    // Calcular el total con descuento
+                    $descuento = $promocion->Descuento; // Porcentaje de descuento
+                    // Asegúrate de que el descuento sea un número válido
+                    if ($descuento < 0 || $descuento > 100) {
+                        throw new \Exception('El porcentaje de descuento no es válido.');
+                    }
+                    // Calcular el total con el descuento aplicado
+                    $total = ($producto->Precio * $data['cantidad']) * (1 - ($descuento / 100));
+                    $cantidadRegistrada = $data['cantidad'];
+                } else {
+                    // Si no es un tipo de promoción válida, se registra normalmente
+                    $cantidadRegistrada = $data['cantidad'];
+                    $total = $producto->Precio * $data['cantidad'];
+                }
+            } else {
+                // Si no hay promoción activa, se registra normalmente
+                $cantidadRegistrada = $data['cantidad'];
+                $total = $producto->Precio * $data['cantidad'];
             }
-
-            $precioUnitario = $producto->Precio;
-            $total = $precioUnitario * $data['cantidad'];
-
-            // Aquí puedes ajustar según la promoción activa que tengas
-            $descuento = 0;
-            if (method_exists($producto, 'promocionActiva') && $producto->promocionActiva) {
-                $descuento = $producto->promocionActiva->calcularDescuento($total);
-                Log::info("Descuento aplicado: $descuento");
-            }
-
-            $producto->Cantidad_Stock -= $data['cantidad'];
-            $producto->save();
-            Log::info("Stock actualizado: {$producto->Cantidad_Stock}");
-
-            $this->transaccionService->crearTransaccion([
-                'Fecha_Transaccion' => Carbon::now(),
-                'Cantidad' => $data['cantidad'],
-                'Id_Producto' => $producto->Id_Producto,
-                'Id_Tipo_Transaccion' => 2, // venta
-                'Id_Administrador' => $data['id_regente'] ?? 1,
-            ]);
-            Log::info("Transacción creada.");
-
-            Comprobante::create([
-                'Id_Producto' => $producto->Id_Producto,
-                'Cantidad' => $data['cantidad'],
-                'Total' => $total - $descuento,
-                'Fecha_Venta' => Carbon::now(), // Corregido: Cambié 'Fecha_Venta_' a 'Fecha_Venta'
-                'Id_Regente' => $data['id_regente']
-            ]);
-            Log::info("Comprobante creado.");
-
-            DB::commit();
-            Log::info("Venta finalizada exitosamente.");
-
-            return true;
-
-        } catch (\Throwable $e) {
-            DB::rollBack();
-            Log::error("Error en venta: " . $e->getMessage());
-            throw $e;
+        } else {
+            // Si el producto no está en promoción, se registra normalmente
+            $cantidadRegistrada = $data['cantidad'];
+            $total = $producto->Precio * $data['cantidad'];
         }
+
+        // Verificar si hay suficiente stock
+        if ($cantidadRegistrada > $producto->Cantidad_Stock) {
+            throw new \Exception('No hay suficiente stock para realizar la venta.');
+        }
+
+        // Crear el comprobante
+        $comprobante = Comprobante::create([
+            'Id_Regente' => $data['id_regente'],
+            'Id_Producto' => $producto->Id_Producto,
+            'Cantidad' => $cantidadRegistrada,
+            'Fecha_Venta' => now(),
+            'Total' => $total,
+        ]);
+
+        // Registrar la transacción de salida
+        Transaccion::create([
+            'Fecha_Transaccion' => now(),
+            'Cantidad' => $cantidadRegistrada,
+            'Id_Administrador' => 1, // Cambia esto según tu lógica
+            'Id_Producto' => $producto->Id_Producto,
+            'Id_Tipo_Transaccion' => 2, // Tipo de transacción 2 para salida
+        ]);
+
+        // Actualizar stock y estado del producto
+        $producto->Cantidad_Stock -= $cantidadRegistrada;
+
+        if ($producto->Cantidad_Stock <= 0) {
+            $producto->Id_Estado_Producto = 2; // 2 = Agotado
+        }
+        $producto->save();
+
+        return $comprobante;
     }
 }

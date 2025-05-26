@@ -51,15 +51,15 @@
             <div class="alert alert-danger mt-3">
                 <ul>
                     @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
+                   @endforeach
                 </ul>
-            </div>
+            </d            <li>{{ $error }}</li>
+             iv>
         @endif
 
         <form action="{{ route('productos.store') }}" method="POST">
             @csrf
-            {{-- Incluir aquí el formulario reutilizable --}}
+             
             @include('productos.form')
             <div class="text-center mt-4">
                 <button type="submit" class="btn btn-primary">Guardar</button>

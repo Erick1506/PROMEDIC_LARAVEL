@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+
 class Producto extends Model
 {   
     protected $table = 'producto';
@@ -49,7 +50,7 @@ class Producto extends Model
 
     public function promociones()
     {
-        return $this->hasMany(Promocion::class, 'Id_Producto');
+        return $this->hasMany(Promocion::class, 'Id_Producto', 'Id_Producto');
     }
 
     public function transacciones()

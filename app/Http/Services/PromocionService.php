@@ -36,7 +36,7 @@ class PromocionService
         }
 
         // Verificar si ya tiene promoción activa
-        $existePromocion = $producto->promocion()
+        $existePromocion = $producto->promociones() // Cambiado a promociones()
             ->where(function ($query) {
                 $query->whereNull('Fecha_Fin')
                     ->orWhere('Fecha_Fin', '>=', now());
@@ -47,7 +47,7 @@ class PromocionService
         }
 
         // Crear la promoción
-        $promocion = $producto->promocion()->create($data);
+        $promocion = $producto->promociones()->create($data); // Cambiado a promociones()
 
         // Cambiar estado del producto a 3 (Promoción)
         $producto->update(['Id_Estado_Producto' => 3]);
@@ -55,11 +55,10 @@ class PromocionService
         return ['status' => 'success', 'data' => $promocion];
     }
 
-
     // Listar todas las promociones
     public function listar()
     {
-        return Promocion::all();
+        return Promocion::with('producto')->get(); // Cargar el producto relacionado
     }
 
     // Mostrar una promoción por ID

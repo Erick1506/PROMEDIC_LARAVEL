@@ -146,26 +146,3 @@
         </div>
     </div>
 </div>
-
-{{-- MODAL: Búsqueda --}}
-<div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="searchModalLabel">Buscar Producto</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-            </div>
-            <div class="modal-body">
-                <form id="searchForm" action="{{ route('dashboard') }}" method="GET">
-                    <div class="input-group">
-                        <input type="text" name="q" id="productName" class="form-control"
-                            placeholder="Ingrese el nombre del producto">
-                        <button class="btn btn-primary" type="submit" id="searchProduct">
-                            <i class="bi bi-search"></i>
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>

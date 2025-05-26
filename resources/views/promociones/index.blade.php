@@ -17,7 +17,8 @@
                     </li>
                 </ul>
                 <form class="d-flex" method="GET" action="{{ route('promociones.index') }}">
-                    <input class="form-control me-2" type="search" placeholder="Buscar por ID o nombre" name="search" value="{{ old('search', $searchTerm) }}">
+                    <input class="form-control me-2" type="search" placeholder="Buscar por tipo de promoción"
+                        name="tipo_promocion" value="{{ request('tipo_promocion') }}">
                     <button class="btn btn-custom" type="submit">Buscar</button>
                 </form>
             </div>

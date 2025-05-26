@@ -9,16 +9,8 @@
         <a class="navbar-brand" href="#">
             <h2>Promedic</h2>
         </a>
-        <div class="collapse navbar-collapse">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url('/dashboard') }}">Inicio</a>
-                </li>
-            </ul>
-        </div>
     </div>
 </nav>
-
 @extends('layouts.app')
 
 @section('css')

@@ -22,7 +22,7 @@ class Promocion extends Model
 
     public function producto()
     {
-        return $this->belongsTo(Producto::class, 'Id_Producto');
+        return $this->belongsTo(Producto::class, 'Id_Producto', 'Id_Producto');
     }
 
     public function tipoPromocion()
