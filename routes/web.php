@@ -12,6 +12,9 @@ use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ClasificacionController;
 use App\Http\controllers\MarcaController;
+use App\Http\controllers\EstadisticasController;
+use App\Http\Controllers\ReporteController;
+
 
 
 // Ruta para mostrar formulario de login
@@ -35,8 +38,8 @@ Route::get('/dashboard', function () {
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 // Estadísticas
-Route::get('/estadisticas', [EstadisticaController::class, 'index'])
-    ->name('estadisticas.index');
+Route::get('/estadisticas', [EstadisticasController::class, 'index'])->name('estadisticas.index');
+
 
 // Productos
 Route::resource('productos', ProductoController::class)
@@ -68,3 +71,9 @@ Route::resource('clasificaciones', ClasificacionController::class);
 
 // Vender producto
 Route::post('/productos/vender', [ProductoController::class, 'vender'])->name('productos.vender');
+
+
+// Ejemplo de ruta para informes inventario
+Route::get('/informes/inventario', [ReporteController::class, 'index'])->name('informes.inventario');
+Route::get('/informes/inventario/pdf', [ReporteController::class, 'generarPDF'])->name('informes.pdf_inventario');
+Route::post('/generar-informe', [ReporteController::class, 'generarPDF'])->name('form');

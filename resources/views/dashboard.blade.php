@@ -171,3 +171,11 @@
 </div>
 @endsection
 
+
+@if(session('error_js'))
+    <script>
+        alert("{{ session('error_js') }}");
+    </script>
+@endif
+
+

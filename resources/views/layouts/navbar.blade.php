@@ -52,32 +52,38 @@
 
             <!-- API EXTERNA -->
 
+            <!-- Icono de Lupa para abrir el modal -->
             <div class="text-end m-3">
                 <i class="bi bi-search cursor-pointer" style="font-size: 1.5rem;" data-bs-toggle="modal"
-                    data-bs-target="#searchModal"></i>
+                    data-bs-target="#searchModal" title="Buscar producto en DrugBank"></i>
             </div>
 
-            <!-- Modal -->
+            <!-- Modal de búsqueda de productos -->
             <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <h5 class="modal-title" id="searchModalLabel">Buscar producto en DrugBank</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Cerrar"></button>
                         </div>
                         <div class="modal-body">
                             <input type="text" id="productName" class="form-control"
                                 placeholder="Ingrese el nombre del producto" />
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" id="searchProduct">Buscar</button>
+                            <button type="button" class="btn btn-light" id="searchProduct">Buscar</button>
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- Contenedor para mostrar resultados -->
+
+            <!-- Contenedor para mostrar resultados (si decides mostrar algo luego) -->
             <div id="productResults" class="m-3"></div>
+
+
 
             {{-- Área de acciones: notificaciones, búsqueda, perfil --}}
             <div class="d-flex align-items-center">
@@ -138,7 +144,7 @@
             </div>
             <div class="modal-footer">
                 <input type="text" id="newNotification" class="form-control" placeholder="Escribe una notificación">
-                
+
                 <button type="button" class="btn btn-light" id="addNotification">Agregar</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 <button type="button" class="btn btn-light" id="goToDetailsBtn">Ir a detalles</button>
@@ -146,3 +152,5 @@
         </div>
     </div>
 </div>
+
+    <script src="{{ asset('build/assets/js/apiExterna.js') }}"></script>

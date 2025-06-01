@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Promedic</title>
 
-
     <!-- Bootstrap CSS + Icons (sin integrity para evitar mismatches) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
@@ -37,8 +36,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Tus scripts personalizados -->
-    <!-- app.js carga módulos, por eso type="module" -->
-    <script type="module" src="{{ asset('build/assets/js/app.js') }}"></script>
+
 
     <!-- notifications.js y search.js se ejecutan tras parseo del DOM -->
     <script defer src="{{ asset('build/assets/js/notifications.js') }}"></script>
@@ -47,6 +45,8 @@
     <!-- Push de scripts específicos de cada vista -->
     @stack('scripts')
     <script src="{{ asset('build/assets/js/menu.js') }}"></script>
+    @yield('js')
+
 </body>
 
 

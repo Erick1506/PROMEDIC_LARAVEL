@@ -51,98 +51,94 @@
             <div class="alert alert-danger mt-3">
                 <ul>
                     @foreach ($errors->all() as $error)
-                   @endforeach
+                    @endforeach
                 </ul>
-            </d            <li>{{ $error }}</li>
-             iv>
+                </d <li>{{ $error }}</li>
+                iv>
         @endif
 
-        <form action="{{ route('productos.store') }}" method="POST">
-            @csrf
-             
-            @include('productos.form')
-            <div class="text-center mt-4">
-                <button type="submit" class="btn btn-primary">Guardar</button>
-                <button type="button" class="btn btn-secondary" onclick="window.history.back()">Cancelar</button>
-            </div>
-        </form>
-        @include('productos.modales-producto')
+            <form action="{{ route('productos.store') }}" method="POST">
+                @csrf
 
-        @endsection
+                @include('productos.form')
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <button type="button" class="btn btn-secondary" onclick="window.history.back()">Cancelar</button>
+                </div>
+            </form>
+            @include('productos.modales-producto')
+
+@endsection
 
 
-    @push('scripts')
-        <script>
+        @push('scripts')
+            <script>
 
-            // Filtrar clasificaciones por categorias 
-            const clasificaciones = @json($clasificaciones);
+                // Filtrar clasificaciones por categorias 
+                const clasificaciones = @json($clasificaciones);
 
-            document.addEventListener('DOMContentLoaded', () => {
-                const categoriaSelect = document.querySelector('select[name="Id_Categoria"]');
-                const clasificacionSelect = document.querySelector('select[name="Id_Clasificacion"]');
+                document.addEventListener('DOMContentLoaded', () => {
+                    const categoriaSelect = document.querySelector('select[name="Id_Categoria"]');
+                    const clasificacionSelect = document.querySelector('select[name="Id_Clasificacion"]');
 
-                function actualizarClasificaciones() {
-                    const idCategoria = categoriaSelect.value;
-                    clasificacionSelect.innerHTML = '<option value="">Seleccione una clasificación</option>';
+                    function actualizarClasificaciones() {
+                        const idCategoria = categoriaSelect.value;
+                        clasificacionSelect.innerHTML = '<option value="">Seleccione una clasificación</option>';
 
-                    clasificaciones.forEach(clasificacion => {
-                        if (clasificacion.Id_Categoria == idCategoria) {
-                            const option = document.createElement('option');
-                            option.value = clasificacion.Id_Clasificacion;
-                            option.textContent = clasificacion.Nombre_Clasificacion;
-                            clasificacionSelect.appendChild(option);
+                        clasificaciones.forEach(clasificacion => {
+                            if (clasificacion.Id_Categoria == idCategoria) {
+                                const option = document.createElement('option');
+                                option.value = clasificacion.Id_Clasificacion;
+                                option.textContent = clasificacion.Nombre_Clasificacion;
+                                clasificacionSelect.appendChild(option);
+                            }
+                        });
+                    }
+
+                    categoriaSelect.addEventListener('change', actualizarClasificaciones);
+
+                    if (categoriaSelect.value) {
+                        actualizarClasificaciones();
+                    }
+                });
+            </script>
+        @endpush
+
+        @push('scripts')
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const estadoProductoSelect = document.querySelector('select[name="Id_Estado_Producto"]');
+                    const promocionFields = document.getElementById('promocionFields');
+                    const tipoPromocionSelect = document.getElementById('tipoPromocion');
+                    const descuentoField = document.getElementById('descuentoField');
+
+                    function togglePromocionFields() {
+                        if (estadoProductoSelect.value == '3') { // ID 3 = Promoción
+                            promocionFields.style.display = 'block';
+                        } else {
+                            promocionFields.style.display = 'none';
+                            tipoPromocionSelect.value = '';
+                            descuentoField.style.display = 'none';
                         }
-                    });
-                }
+                    }
 
-                categoriaSelect.addEventListener('change', actualizarClasificaciones);
+                    function toggleDescuentoField() {
+                        // Aquí asumimos que el tipo de promoción "descuento" tiene el texto literal "descuento"
+                        const selectedText = tipoPromocionSelect.options[tipoPromocionSelect.selectedIndex]?.textContent.toLowerCase();
+                        if (selectedText === 'descuento') {
+                            descuentoField.style.display = 'block';
+                        } else {
+                            descuentoField.style.display = 'none';
+                        }
+                    }
 
-                if (categoriaSelect.value) {
-                    actualizarClasificaciones();
-                }
-            });
-</script>
-@endpush
+                    // Eventos
+                    estadoProductoSelect.addEventListener('change', togglePromocionFields);
+                    tipoPromocionSelect.addEventListener('change', toggleDescuentoField);
 
-@push('scripts')
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const estadoProductoSelect = document.querySelector('select[name="Id_Estado_Producto"]');
-        const promocionFields = document.getElementById('promocionFields');
-        const tipoPromocionSelect = document.getElementById('tipoPromocion');
-        const descuentoField = document.getElementById('descuentoField');
-
-        function togglePromocionFields() {
-            if (estadoProductoSelect.value == '3') { // ID 3 = Promoción
-                promocionFields.style.display = 'block';
-            } else {
-                promocionFields.style.display = 'none';
-                tipoPromocionSelect.value = '';
-                descuentoField.style.display = 'none';
-            }
-        }
-
-        function toggleDescuentoField() {
-            // Aquí asumimos que el tipo de promoción "descuento" tiene el texto literal "descuento"
-            const selectedText = tipoPromocionSelect.options[tipoPromocionSelect.selectedIndex]?.textContent.toLowerCase();
-            if (selectedText === 'descuento') {
-                descuentoField.style.display = 'block';
-            } else {
-                descuentoField.style.display = 'none';
-            }
-        }
-
-        // Eventos
-        estadoProductoSelect.addEventListener('change', togglePromocionFields);
-        tipoPromocionSelect.addEventListener('change', toggleDescuentoField);
-
-        // Ejecutar en carga inicial si hay valores preseleccionados
-        togglePromocionFields();
-        toggleDescuentoField();
-    });
-</script>
-@endpush
-
-
-
-   
+                    // Ejecutar en carga inicial si hay valores preseleccionados
+                    togglePromocionFields();
+                    toggleDescuentoField();
+                });
+            </script>
+        @endpush

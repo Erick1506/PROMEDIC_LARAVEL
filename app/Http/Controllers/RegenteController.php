@@ -11,6 +11,14 @@ class RegenteController extends Controller
     // Lista todos los regentes
     public function index(Request $request)
     {
+
+        // Verificar sesión de administrador
+        if (!session()->has('admin_id')) {
+            return redirect()->route('dashboard')->with('error_js', 'Ups, no tienes permisos para acceder a esta página.');
+        }
+
+
+
         $busqueda = $request->input('buscar_regente', '');
         $regentes = Regente::with('turno')->where('Nombre', 'LIKE', "%$busqueda%")->get();
         $turnos = TurnoRegente::all();
