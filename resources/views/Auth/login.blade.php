@@ -3,7 +3,7 @@
 
 @section('css')
     <!-- Cargar solo el archivo CSS necesario para esta vista -->
-  <link rel="stylesheet" href="{{ asset('build/assets/css/login.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/assets/css/login.css') }}">
 @endsection
 
 <head>
@@ -44,7 +44,7 @@
                     <button type="submit">Acceder</button>
 
                     <div class="registrar">
-                        <p>Recuperar <a href="solicitar_recuperacion.php">Contraseña</a></p>
+                        <p>¿Olvidaste tu <a href="{{ route('password.email.form') }}">contraseña?</a></p>
                     </div>
                 </form>
             </div>

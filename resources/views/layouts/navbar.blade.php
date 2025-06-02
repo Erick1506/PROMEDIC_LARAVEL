@@ -153,4 +153,4 @@
     </div>
 </div>
 
-    <script src="{{ asset('build/assets/js/apiExterna.js') }}"></script>
+<script src="{{ asset('build/assets/js/apiExterna.js') }}"></script>

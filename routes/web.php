@@ -73,7 +73,16 @@ Route::resource('clasificaciones', ClasificacionController::class);
 Route::post('/productos/vender', [ProductoController::class, 'vender'])->name('productos.vender');
 
 
-// Ejemplo de ruta para informes inventario
+// ruta para informes inventario
 Route::get('/informes/inventario', [ReporteController::class, 'index'])->name('informes.inventario');
 Route::get('/informes/inventario/pdf', [ReporteController::class, 'generarPDF'])->name('informes.pdf_inventario');
 Route::post('/generar-informe', [ReporteController::class, 'generarPDF'])->name('form');
+
+// Recuperar contraseña 
+use App\Http\Controllers\PasswordController;
+
+Route::get('/recuperar', [PasswordController::class, 'showEmailForm'])->name('password.email.form');
+Route::post('/recuperar', [PasswordController::class, 'checkEmail'])->name('password.email.check');
+Route::get('/cambiar', [PasswordController::class, 'showResetForm'])->name('password.reset.form');
+Route::post('/cambiar', [PasswordController::class, 'resetPassword'])->name('password.reset.save');
+

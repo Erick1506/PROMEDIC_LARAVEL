@@ -58,9 +58,10 @@ class AuthController extends Controller
     }
 
     // Cierra sesión
-    public function logout()
-    {
-        session()->flush(); // Borra toda la sesión
-        return redirect('/login'); // Redirige al login
-    }
+   public function logout(Request $request)
+{
+    session()->flush(); // Elimina todos los datos de sesión
+    return redirect()->route('login.form')->with('success', 'Sesión cerrada correctamente');
+}
+
 }

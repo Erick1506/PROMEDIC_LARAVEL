@@ -42,6 +42,8 @@ class RegenteController extends Controller
             'token_expiracion' => 'nullable|date',
         ]);
 
+        
+
         $regente = Regente::create($data);
 
         return redirect()->route('regentes.index')->with('success', 'regente agregado exitosamente.');
@@ -72,7 +74,7 @@ class RegenteController extends Controller
             'token_expiracion' => 'nullable|date',
         ]);
 
-        $regente->update($data);
+        $regente->actualizarConPassword($data);
 
         return redirect()->route('regentes.index')->with('success', 'regente Actualizado exitosamente.');
     }

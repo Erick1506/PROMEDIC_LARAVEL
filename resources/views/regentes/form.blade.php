@@ -14,7 +14,7 @@
 
 <div class="mb-3">
     <label for="dni_regente">DNI del Regente</label>
-    <input type="text" name="DNI" id="dni_regente" class="form-control" placeholder="DNI del Regente"
+    <input type="number" name="DNI" id="dni_regente" class="form-control" placeholder="DNI del Regente"
         value="{{ old('DNI', $regente->DNI ?? '') }}" required>
 </div>
 
@@ -38,7 +38,7 @@
 
 <div class="mb-3">
     <label for="telefono_regente">Teléfono del Regente</label>
-    <input type="text" name="Telefono" id="telefono_regente" class="form-control" placeholder="Teléfono del Regente"
+    <input type="number" name="Telefono" id="telefono_regente" class="form-control" placeholder="Teléfono del Regente"
         value="{{ old('Telefono', $regente->Telefono ?? '') }}" required>
 </div>
 
@@ -58,5 +58,5 @@
     <label for="contrasena_regente">Contraseña del Regente</label>
     <input type="password" name="Contraseña_Encriptada" id="contrasena_regente" class="form-control"
         placeholder="Contraseña del Regente" {{ isset($regente) ? '' : 'required' }}>
-
 </div>
+
