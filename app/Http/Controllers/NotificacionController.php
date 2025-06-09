@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Notificacion;
 use Illuminate\Http\Request;
+use App\Http\Services\NotificationService;
+
+
 
 class NotificacionController extends Controller
 {
@@ -54,4 +57,47 @@ class NotificacionController extends Controller
 
         return response()->json(null, 204);
     }
+
+
+
+    public function __construct(NotificationService $service)
+    {
+        $this->notificationService = $service;
+    }
+
+    protected $notificationService;
+
+   
+    public function productosCriticos()
+    {
+        $productos = $this->notificationService->productosCriticos();
+        return response()->json($productos);
+    }
+
+    public function crearNotificacion(Request $request)
+    {
+        $request->validate(['mensaje' => 'required|string']);
+        $notificacion = $this->notificationService->crearNotificacion($request->mensaje);
+        return response()->json($notificacion, 201);
+    }
+
+    public function enviarMensajeARegente(Request $request)
+    {
+        $request->validate(['mensaje' => 'required|string']);
+        $mensaje = $this->notificationService->enviarMensajeARegente($request->mensaje);
+        return response()->json($mensaje, 201);
+    }
+
+    public function obtenerMensajesARegente()
+    {
+        $mensajes = $this->notificationService->obtenerMensajesARegente();
+        return response()->json($mensajes);
+    }
+
+    public function obtenerNotificaciones()
+    {
+        $notificaciones = $this->notificationService->obtenerNotificaciones();
+        return response()->json($notificaciones);
+    }
+
 }

@@ -14,6 +14,7 @@ use App\Http\Controllers\ClasificacionController;
 use App\Http\controllers\MarcaController;
 use App\Http\controllers\EstadisticasController;
 use App\Http\Controllers\ReporteController;
+use App\Http\Controllers\MensajesARegenteController;
 
 
 
@@ -85,4 +86,16 @@ Route::get('/recuperar', [PasswordController::class, 'showEmailForm'])->name('pa
 Route::post('/recuperar', [PasswordController::class, 'checkEmail'])->name('password.email.check');
 Route::get('/cambiar', [PasswordController::class, 'showResetForm'])->name('password.reset.form');
 Route::post('/cambiar', [PasswordController::class, 'resetPassword'])->name('password.reset.save');
+
+use App\Http\Controllers\NotificacionController;
+
+Route::get('/productos-criticos', [NotificacionController::class, 'productosCriticos']);
+
+Route::post('/notificaciones', [NotificacionController::class, 'crearNotificacion']);
+
+Route::post('/mensajes-regente', [NotificacionController::class, 'enviarMensajeARegente']);
+
+Route::get('/mensajes-regente', [NotificacionController::class, 'obtenerMensajesARegente']);
+
+Route::get('/notificaciones', [NotificacionController::class, 'obtenerNotificaciones']);
 

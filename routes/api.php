@@ -140,6 +140,13 @@ Route::post('/turnos-regente', [TurnoRegenteController::class, 'store']);
 Route::get('/turnos-regente/{id}', [TurnoRegenteController::class, 'show']);
 Route::put('/turnos-regente/{id}', [TurnoRegenteController::class, 'update']);
 Route::delete('/turnos-regente/{id}', [TurnoRegenteController::class, 'destroy']); 
+
+
+
+Route::get('/productos-criticos', [NotificacionController::class, 'productosCriticos']);
+Route::get('/notificaciones', [NotificacionController::class, 'obtenerNotificaciones']);
+Route::get('/mensajes-regente', [NotificacionController::class, 'obtenerMensajesARegente']);
+
 });
 
 

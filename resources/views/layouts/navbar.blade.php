@@ -88,13 +88,34 @@
             {{-- Área de acciones: notificaciones, búsqueda, perfil --}}
             <div class="d-flex align-items-center">
                 {{-- Notificaciones --}}
-                <button type="button" class="btn btn-outline-primary position-relative me-3" data-bs-toggle="modal"
-                    data-bs-target="#notificationsModal" style="width:2.8rem; height:2.5rem;">
-                    <i class="bi bi-bell fs-5"></i>
-                    <span id="notificationCount"
-                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-                        style="display:none; width:1.2rem; height:1.2rem; font-size:.75rem;">0</span>
-                </button>
+                <!-- Botón de notificaciones -->
+<button type="button" class="btn btn-outline-primary position-relative me-3" data-bs-toggle="modal"
+    data-bs-target="#notificationsModal" style="width:2.8rem; height:2.5rem;">
+    <i class="bi bi-bell fs-5"></i>
+    <span id="notificationCount"
+        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+        style="display:none; width:1.2rem; height:1.2rem; font-size:.75rem;">0</span>
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="notificationsModal" tabindex="-1" aria-labelledby="notificationsModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="notificationsModalLabel">Notificaciones</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body" id="notificationsContent">
+        <!-- Aquí cargaremos las notificaciones y productos críticos -->
+        <p>Cargando notificaciones...</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
                 {{-- Búsqueda --}}
                 <form class="d-flex mx-2" id="searchForm" onsubmit="return false;">
