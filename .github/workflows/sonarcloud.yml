@@ -36,5 +36,5 @@ jobs:
         with:
           args: >
             -Dsonar.projectKey=PROMEDIC_LARAVEL
-            -Dsonar.organization=Erick1506
+            -Dsonar.organization=erick1506
             -Dsonar.php.coverage.reportPaths=coverage.xml
