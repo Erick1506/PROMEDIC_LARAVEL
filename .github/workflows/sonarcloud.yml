@@ -35,6 +35,6 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONARREPO }}
         with:
           args: >
-            -Dsonar.projectKey=PROMEDIC_LARAVEL
+            -Dsonar.projectKey=erick1506_PROMEDIC_LARAVEL
             -Dsonar.organization=erick1506
             -Dsonar.php.coverage.reportPaths=coverage.xml
