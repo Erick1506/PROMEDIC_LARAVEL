@@ -1,35 +1,21 @@
-name: SonarCloud
+name: SonarCloud Scan
 
 on:
   push:
     branches:
       - main
-  pull_request:
-    types: [opened, synchronize, reopened]
-    branches:
-      - "*"
 
 jobs:
-  analyze:
-    name: SonarCloud Scan
+  sonarcloud:
+    name: SonarCloud
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.2'
-
-      - name: Install dependencies
-        run: composer install --no-progress --no-suggest --prefer-dist
+        uses: actions/checkout@v4
 
       - name: Run SonarCloud analysis
-        uses: SonarSource/sonarcloud-github-action@master
+        uses: SonarSource/sonarqube-scan-action@v5.0.0
         env:
           SONAR_TOKEN: ${{ secrets.SONARREPO }}
         with:
