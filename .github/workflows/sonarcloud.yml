@@ -34,7 +34,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONARREPO }}
         with:
           args: >
-            -Dsonar.projectKey=Erick1506_PROMEDIC_LARAVEL
+            -Dsonar.projectKey=PROMEDIC_LARAVEL
             -Dsonar.organization=Erick1506
             -Dsonar.sources=.
             -Dsonar.host.url=https://sonarcloud.io
