@@ -24,8 +24,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Establece directorio de trabajo
 WORKDIR /var/www/html
 
-# Copia el proyecto
-COPY . /var/www/html
+
 
 # Permisos
 RUN chown -R www-data:www-data /var/www/html \

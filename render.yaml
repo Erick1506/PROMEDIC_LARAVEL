@@ -1,17 +1,12 @@
 services:
   - type: web
-    name: promedic-laravel
-    runtime: php
-    repo: https://github.com/Erick1506/PROMEDIC_LARAVEL
-    buildCommand: |
-      composer install
-      php artisan migrate --force
-      php artisan config:cache
-    startCommand: php artisan serve --host 0.0.0.0 --port 10000
+    name: promedic
+    env: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    buildCommand: ""
+    startCommand: "apache2-foreground"
+    rootDir: .
     envVars:
       - key: APP_ENV
         value: production
-      - key: APP_KEY
-        generateValue: true
-      - key: APP_DEBUG
-        value: false
