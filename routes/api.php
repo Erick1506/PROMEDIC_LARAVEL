@@ -21,7 +21,7 @@ use App\Http\Controllers\TipoTransaccionController;
 use App\Http\Controllers\TransaccionController;
 use App\Http\Controllers\TurnoRegenteController;
 
-Route::middleware('api')->group(function () {
+
 // Rutas para Administradores
 Route::get('/administradores', [AdministradorController::class, 'index']);
 Route::post('/administradores', [AdministradorController::class, 'store']);
@@ -146,7 +146,5 @@ Route::delete('/turnos-regente/{id}', [TurnoRegenteController::class, 'destroy']
 Route::get('/productos-criticos', [NotificacionController::class, 'productosCriticos']);
 Route::get('/notificaciones', [NotificacionController::class, 'obtenerNotificaciones']);
 Route::get('/mensajes-regente', [NotificacionController::class, 'obtenerMensajesARegente']);
-
-});
 
 
